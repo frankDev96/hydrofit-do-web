@@ -36,6 +36,7 @@ import {
 } from "@/lib/hydration";
 
 const STORAGE_KEY = "hydrofit-do-web-v1";
+const EMPTY_LOGS: IntakeLog[] = [];
 
 export type HydroState = {
   gender: Gender | null;
@@ -210,7 +211,7 @@ export function HydroProvider({ children }: { children: ReactNode }) {
 
   const targetMl = dailyTargetMl(state.weightKg);
   const todayKey = dateKey(nowMs);
-  const todayLogs = state.intakeByDate[todayKey] ?? [];
+  const todayLogs = state.intakeByDate[todayKey] ?? EMPTY_LOGS;
   const todayMl = dayTotal(todayLogs);
   const lastIntakeMs = todayLogs.at(-1)?.loggedAtMs ?? null;
 
@@ -221,7 +222,7 @@ export function HydroProvider({ children }: { children: ReactNode }) {
   const logIntake = useCallback((amountMl: number, loggedAtMs = Date.now()) => {
     if (!Number.isFinite(amountMl) || amountMl <= 0) return;
     const rounded = Math.round(amountMl);
-    setState((current) => {
+    commit((current) => {
       const key = dateKey(loggedAtMs);
       const target = dailyTargetMl(current.weightKg);
       const beforeIds = unlockedAchievements(current.intakeByDate, target);
@@ -259,6 +260,11 @@ export function HydroProvider({ children }: { children: ReactNode }) {
   }, [pushInbox]);
 
   useEffect(() => {
+    const timer = window.setInterval(() => setNowMs(Date.now()), 20_000);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
     if (!ready || !state.onboardingCompleted || !state.remindersEnabled || state.reminderMode === "off") {
       return;
     }
@@ -278,7 +284,7 @@ export function HydroProvider({ children }: { children: ReactNode }) {
     if (state.lastReminderKey === reminderKey) return;
     const title = "Time to drink";
     const body = `${active.title} · ${formatVolume(active.volumeMl, state.volumeUnit)}`;
-    setState((current) => {
+    commit((current) => {
       if (current.lastReminderKey === reminderKey) return current;
       return {
         ...current,
@@ -331,7 +337,7 @@ export function HydroProvider({ children }: { children: ReactNode }) {
       celebration,
       logIntake,
       removeLog: (id) => {
-        setState((current) => {
+        commit((current) => {
           const intakeByDate: IntakeByDate = {};
           for (const [key, logs] of Object.entries(current.intakeByDate)) {
             const next = logs.filter((log) => log.id !== id);
@@ -340,23 +346,23 @@ export function HydroProvider({ children }: { children: ReactNode }) {
           return { ...current, intakeByDate };
         });
       },
-      setSelectedContainer: (amountMl) => setState((current) => ({ ...current, selectedContainerMl: amountMl })),
+      setSelectedContainer: (amountMl) => commit((current) => ({ ...current, selectedContainerMl: amountMl })),
       addCustomContainer: (amountMl) => {
         const container = { id: crypto.randomUUID(), amountMl: Math.round(amountMl) };
-        setState((current) => ({
+        commit((current) => ({
           ...current,
           customContainers: [...current.customContainers, container],
           selectedContainerMl: container.amountMl,
         }));
       },
       removeCustomContainer: (id) => {
-        setState((current) => ({
+        commit((current) => ({
           ...current,
           customContainers: current.customContainers.filter((item) => item.id !== id),
         }));
       },
       completeOnboarding: (draft) => {
-        setState((current) => ({
+        commit((current) => ({
           ...current,
           ...draft,
           onboardingCompleted: true,
@@ -374,13 +380,13 @@ export function HydroProvider({ children }: { children: ReactNode }) {
               ],
         }));
       },
-      updateProfile: (patch) => setState((current) => ({ ...current, ...patch })),
-      updateBody: (patch) => setState((current) => ({ ...current, ...patch })),
-      clearInbox: () => setState((current) => ({ ...current, inbox: [] })),
+      updateProfile: (patch) => commit((current) => ({ ...current, ...patch })),
+      updateBody: (patch) => commit((current) => ({ ...current, ...patch })),
+      clearInbox: () => commit((current) => ({ ...current, inbox: [] })),
       dismissCelebration: () => setCelebration(null),
       restoreDefaults: () => {
         setCelebration(null);
-        setState(initialState);
+        commit(() => initialState);
         window.localStorage.removeItem(STORAGE_KEY);
       },
     };
