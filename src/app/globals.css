@@ -1,5 +1,33 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Inter-Regular";
+  src: url("/fonts/Inter-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter-SemiBold";
+  src: url("/fonts/Inter-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter-Bold";
+  src: url("/fonts/Inter-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Sora-SemiBold";
+  src: url("/fonts/Sora-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-display: swap;
+}
+
 :root {
   --bg: #f7f9fc;
   --surface: #ffffff;
@@ -29,11 +57,34 @@
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: Inter, Roboto, "Segoe UI", sans-serif;
+  font-family: var(--font-inter), "Inter-Regular", Inter, Roboto, "Segoe UI", sans-serif;
 }
 
 button,
 input,
 select {
   font: inherit;
+}
+
+@keyframes hydrofit-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(calc(var(--hydrofit-float, 14px) * -1));
+  }
+}
+
+@keyframes hydrofit-confetti {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate3d(0, 70vh, 0) rotate(160deg);
+    opacity: 0;
+  }
 }

@@ -1,0 +1,41 @@
+---
+description: Conventional Commits format and husky check gate for every git commit.
+alwaysApply: true
+---
+
+# Git commits (HydroFit.do)
+
+## Husky gate
+
+Do **not** use `--no-verify`, `--no-gpg-sign`, or skip hooks.
+
+1. `pre-commit` runs `pnpm check` (type-check, lint, format, coverage tests).
+2. If that suite **passes**, the commit proceeds automatically.
+3. If it **fails**, fix the reported errors and commit again. Do not weaken the hook.
+
+`commit-msg` then requires a Conventional Commits subject. Git-generated `Merge` / `Revert` lines are allowed.
+
+## Message format (Conventional Commits 1.0.0)
+
+```
+type(scope): imperative summary
+```
+
+- **Subject**: 1 line, imperative mood (“add”, “fix”, not “added” / “fixes”), no trailing period, about **why**, ≤100 characters.
+- **Body** (optional): 1–2 sentences after a blank line when the why needs context.
+- **Breaking**: `type(scope)!: summary` and explain in the body.
+
+Allowed `type` values: `feat` `fix` `docs` `style` `refactor` `perf` `test` `build` `ci` `chore` `revert`.
+
+`scope` is optional lowercase (`climate`, `home`, `stats`, `hydration`). Omit it only for repo-wide chores.
+
+```
+# GOOD
+feat(climate): add manual refresh and last-updated time on Home
+fix(stats): count streak from consecutive days with any intake
+
+# BAD
+Updated files
+feat: Added refresh button.
+WIP
+```

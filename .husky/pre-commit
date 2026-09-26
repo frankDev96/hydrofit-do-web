@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+# Run the full project check suite on every commit.
+# Exit 0 → Git proceeds with the commit automatically.
+# Exit non-zero → Git blocks the commit until checks pass.
+
+# GUI Git clients (Cursor/VS Code) often omit Homebrew/Node from PATH.
+# Prefer ~/.config/husky/init.sh; keep a local fallback for teammates.
+if [ -z "$(command -v pnpm 2>/dev/null)" ]; then
+    export PATH="/opt/homebrew/opt/node@22/bin:/opt/homebrew/bin:/usr/local/bin:$PATH"
+fi
+
+echo "husky(pre-commit): pnpm check (type-check, lint, format, tests)"
+if pnpm check; then
+    echo "husky(pre-commit): passed — allowing commit"
+    exit 0
+fi
+
+echo "husky(pre-commit): failed — commit blocked. Fix the errors above and retry."
+exit 1
