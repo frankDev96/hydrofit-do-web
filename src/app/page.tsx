@@ -5,12 +5,21 @@ import { useState } from 'react';
 import { ProgressRing } from '@/components/progress-ring';
 import { containerChoices, useHydro } from '@/components/hydro-context';
 import { formatVolume } from '@/lib/hydration';
+import { OnboardingScreen } from './onboarding/page';
 
 function clock(ms: number): string {
     return new Date(ms).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
 }
 
 export default function HomePage() {
+    const hydro = useHydro();
+    if (!hydro.state.onboardingCompleted) {
+        return <OnboardingScreen />;
+    }
+    return <TodayHome />;
+}
+
+function TodayHome() {
     const hydro = useHydro();
     const [customMl, setCustomMl] = useState('200');
     const [when, setWhen] = useState('');

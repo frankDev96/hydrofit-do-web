@@ -190,7 +190,7 @@ export default function SettingsPage() {
                                 className="h-11 flex-1 rounded-full bg-[var(--primary)] font-semibold text-white"
                                 onClick={() => {
                                     hydro.restoreDefaults();
-                                    router.replace('/onboarding');
+                                    router.replace('/');
                                 }}
                             >
                                 Restore

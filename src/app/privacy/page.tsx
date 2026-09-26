@@ -26,7 +26,9 @@ export default function PrivacyPage() {
                     upload that information to a HydroFit cloud or copy it to another device.
                 </p>
                 <p>
-                    Restore to defaults deletes that local information. Removing HydroFit from the device does the same.
+                    You can delete this data yourself. In Settings, the Restore to defaults button erases everything
+                    HydroFit has stored: profile details, intake logs, reminder preferences, and any saved name or
+                    photo. Nothing from that storage is kept. Removing HydroFit from the device deletes it as well.
                 </p>
                 <h2 className="text-xl font-semibold text-[var(--text)]">How the data is used</h2>
                 <p>
@@ -45,8 +47,9 @@ export default function PrivacyPage() {
                 </p>
                 <h2 className="text-xl font-semibold text-[var(--text)]">Your choices</h2>
                 <p>
-                    You can manage reminder permission in device settings, change reminder mode in Settings, and erase
-                    local data with Restore to defaults. HydroFit does not sell personal information.
+                    You can manage reminder permission in device settings and change reminder mode in Settings. To
+                    delete your data, use Restore to defaults in Settings. That button fully erases the data stored in
+                    HydroFit. HydroFit does not sell personal information.
                 </p>
                 <h2 className="text-xl font-semibold text-[var(--text)]">Children</h2>
                 <p>
