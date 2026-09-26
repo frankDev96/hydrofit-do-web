@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { useHydro } from '@/components/hydro-context';
 import {
@@ -20,19 +20,23 @@ import {
 type Step = 'welcome' | 'gender' | 'weight' | 'wake' | 'bed' | 'plan';
 
 export default function OnboardingPage() {
+    const hydro = useHydro();
     const router = useRouter();
 
     useEffect(() => {
+        if (!hydro.ready || !hydro.state.onboardingCompleted) return;
         router.replace('/');
-    }, [router]);
+    }, [hydro.ready, hydro.state.onboardingCompleted, router]);
 
-    return null;
+    if (!hydro.ready || hydro.state.onboardingCompleted) {
+        return null;
+    }
+
+    return <OnboardingScreen />;
 }
 
 export function OnboardingScreen() {
     const hydro = useHydro();
-    const pathname = usePathname();
-    const router = useRouter();
     const [step, setStep] = useState<Step>('welcome');
     const [gender, setGender] = useState<Gender | null>(hydro.state.gender);
     const [unit, setUnit] = useState<WeightUnit>(hydro.state.weightUnit);
@@ -63,9 +67,6 @@ export function OnboardingScreen() {
             wakeTime,
             bedTime,
         });
-        if (pathname !== '/') {
-            router.replace('/');
-        }
     }
 
     return (

@@ -29,12 +29,12 @@ export function AppShell({ children }: { children: ReactNode }) {
     const pathname = normalizePath(usePathname());
     const router = useRouter();
     const legal = LEGAL_PATHS.some(path => pathname === path || pathname.startsWith(`${path}/`));
-    const showingSetup = pathname === '/' && !state.onboardingCompleted;
+    const showingSetup = !state.onboardingCompleted && (pathname === '/' || pathname === '/onboarding');
     const bare = showingSetup || legal;
 
     useEffect(() => {
-        if (!ready || legal) return;
-        if (pathname === '/onboarding' || (!state.onboardingCompleted && pathname !== '/')) {
+        if (!ready || legal || state.onboardingCompleted) return;
+        if (pathname !== '/' && pathname !== '/onboarding') {
             router.replace('/');
         }
     }, [legal, pathname, ready, router, state.onboardingCompleted]);
