@@ -1,0 +1,18 @@
+---
+description: Web companion rules for Hydrofit.do Web. Token rules still apply.
+alwaysApply: true
+---
+
+# Hydrofit.do Web
+
+This project is the Next.js companion. It uses the same HydroFit tokens, stores, and services as the Android app.
+
+Before editing `.ts` / `.tsx`, read `.cursor/skills/hydrofit-code-standards/SKILL.md`.
+
+On the web:
+
+1. Colors still come from `src/theme/colors.ts`. Page CSS should use the variables `ThemeRoot` publishes (`--hf-*`, `--bg`, `--surface`, `--primary`). Do not add new hex values in components.
+2. Spacing still comes from `src/theme/spacing.ts`.
+3. Fonts are Inter and Sora from `public/fonts`, loaded with `next/font/local`.
+4. UI is HTML, SVG, and CSS. Do not import `react-native` or other React Native packages. Browser storage, notifications, and ads go through `src/stores` and `src/core`.
+5. Persistence goes through the Zustand stores in `src/stores`.

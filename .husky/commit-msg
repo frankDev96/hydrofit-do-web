@@ -1,0 +1,55 @@
+#!/usr/bin/env sh
+# Conventional Commits 1.0.0 — https://www.conventionalcommits.org/
+# Format: type(scope)!: short imperative summary
+# Allowed types: feat | fix | docs | style | refactor | perf | test | build | ci | chore | revert
+# Subject line must be ≤100 characters (type, optional scope, and summary together).
+
+msg_file="$1"
+if [ -z "$msg_file" ] || [ ! -f "$msg_file" ]; then
+    echo "husky(commit-msg): missing commit message file" >&2
+    exit 1
+fi
+
+subject=$(grep -v '^#' "$msg_file" | sed -n '1p' | tr -d '\r')
+
+if [ -z "$subject" ]; then
+    echo "husky(commit-msg): empty commit message" >&2
+    exit 1
+fi
+
+case "$subject" in
+    Merge\ * | Revert\ *)
+        exit 0
+        ;;
+esac
+
+if printf '%s' "$subject" | grep -Eq '^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\([a-z0-9._/-]+\))?!?: [^ ].{0,99}$'; then
+    case "$subject" in
+        *.)
+            echo "husky(commit-msg): subject must not end with a period" >&2
+            exit 1
+            ;;
+    esac
+    subject_len=${#subject}
+    if [ "$subject_len" -gt 100 ]; then
+        echo "husky(commit-msg): subject must be 100 characters or fewer (got ${subject_len})" >&2
+        exit 1
+    fi
+    exit 0
+fi
+
+cat >&2 <<'EOF'
+husky(commit-msg): message does not follow Conventional Commits.
+
+  type(scope): imperative summary
+
+Examples:
+  feat(climate): add manual refresh on the home climate chip
+  fix(stats): count streak from consecutive logged days
+  test(home): expect addIntake to include logged time
+  chore: ignore local editor folders
+
+Types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert
+Use ! after type/scope for a breaking change: feat(api)!: rename hydration log fields
+EOF
+exit 1

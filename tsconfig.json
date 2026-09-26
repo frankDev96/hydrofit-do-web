@@ -13,22 +13,24 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
+    "plugins": [{ "name": "next" }],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@core": ["./src/core/index.ts"],
+      "@core/*": ["./src/core/*"],
+      "@common/ui": ["./src/common/ui/index.ts"],
+      "@common/*": ["./src/common/*"],
+      "@i18n": ["./src/i18n/index.ts"],
+      "@i18n/*": ["./src/i18n/*"],
+      "@navigation": ["./src/navigation/index.ts"],
+      "@navigation/*": ["./src/navigation/*"],
+      "@stores": ["./src/stores/index.ts"],
+      "@stores/*": ["./src/stores/*"],
+      "@theme": ["./src/theme/index.ts"],
+      "@theme/*": ["./src/theme/*"],
+      "@modules/*": ["./src/modules/*"]
     }
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts",
-    "**/*.mts"
-  ],
-  "exclude": ["node_modules"]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.d.ts", ".next/types/**/*.ts", ".next/dev/types/**/*.ts", "**/*.mts"],
+  "exclude": ["node_modules", "vitest", "**/*.test.ts", "**/*.test.tsx", "vitest.config.mts", "vitest.setup.ts"]
 }

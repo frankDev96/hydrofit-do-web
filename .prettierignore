@@ -1,0 +1,9 @@
+node_modules
+.next
+out
+coverage
+.pnpm-store
+.cursor
+pnpm-lock.yaml
+package-lock.json
+public

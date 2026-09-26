@@ -1,0 +1,20 @@
+---
+description: Apply HydroFit token, SOLID, and TypeScript standards on every code change.
+alwaysApply: true
+---
+
+# HydroFit code standards (always on)
+
+Before writing or editing any `.ts` / `.tsx` (including tests), read and obey:
+
+`.cursor/skills/hydrofit-code-standards/SKILL.md`
+
+Hard constraints (do not violate even on small diffs):
+
+1. **Colors** from `src/theme/colors.ts` via `Colors` (`@theme`). No hex, rgb, or named CSS colors in UI files.
+2. **Spacing** from `src/theme/spacing.ts` via `Spacing` / `BorderRadius`. No raw padding/margin/gap numbers in UI files.
+3. **New shared values** go into the matching theme file first, then are used. Keep `LightColors` and `DarkColors` keys in parity.
+4. **SOLID** — screens compose; utils are pure; no MMKV / SQLite / Notifee in UI; smallest possible props. See the skill's `SOLID.md`.
+5. **TypeScript strict** — no `any`, no `@ts-ignore`. `StyleSheet.create()` at module scope.
+
+If a needed token does not exist, add it to the theme file in the same change. Do not hardcode "just this once."
