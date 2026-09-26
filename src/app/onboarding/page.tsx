@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { useHydro } from '@/components/hydro-context';
@@ -83,9 +84,9 @@ export default function OnboardingPage() {
                     </button>
                     <p className="mt-4 text-center text-sm text-[var(--faint)]">
                         By proceeding, you agree to the{' '}
-                        <a className="text-[var(--primary-deep)]" href="/privacy">
+                        <Link className="text-[var(--primary-deep)]" href="/privacy">
                             Privacy Policy
-                        </a>
+                        </Link>
                         .
                     </p>
                 </section>

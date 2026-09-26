@@ -17,9 +17,16 @@ const TABS = [
 
 const OPEN_PATHS = ['/onboarding', '/privacy', '/terms', '/help'];
 
+function normalizePath(pathname: string): string {
+    if (pathname.length > 1 && pathname.endsWith('/')) {
+        return pathname.slice(0, -1);
+    }
+    return pathname;
+}
+
 export function AppShell({ children }: { children: ReactNode }) {
     const { ready, state, celebration, dismissCelebration } = useHydro();
-    const pathname = usePathname();
+    const pathname = normalizePath(usePathname());
     const router = useRouter();
     const bare = OPEN_PATHS.some(path => pathname === path || pathname.startsWith(`${path}/`));
 
