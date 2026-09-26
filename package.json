@@ -1,6 +1,7 @@
 {
   "name": "hydrofit-do-web",
   "version": "0.1.0",
+  "description": "Hydrofit.do Web",
   "private": true,
   "scripts": {
     "dev": "next dev",

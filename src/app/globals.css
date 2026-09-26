@@ -1,26 +1,39 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #f7f9fc;
+  --surface: #ffffff;
+  --text: #191c1e;
+  --muted: #414755;
+  --faint: #727786;
+  --primary: #0077ff;
+  --primary-deep: #0058bf;
+  --border: #e0e3e6;
+  --success: #28a745;
+  --wash: #eaf2ff;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.dark {
+  --bg: #121212;
+  --surface: #1e1e1e;
+  --text: #f7f9fc;
+  --muted: #c5cad6;
+  --faint: #94a3b8;
+  --primary: #3b9eff;
+  --primary-deep: #5b9fff;
+  --border: #2e3340;
+  --success: #3ddc84;
+  --wash: rgba(0, 119, 255, 0.16);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, Roboto, "Segoe UI", sans-serif;
+}
+
+button,
+input,
+select {
+  font: inherit;
 }
