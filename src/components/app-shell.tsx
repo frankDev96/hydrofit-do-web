@@ -15,7 +15,7 @@ const TABS = [
     { href: '/profile', label: 'Profile', Icon: ProfileTabIcon },
 ] as const;
 
-const OPEN_PATHS = ['/onboarding', '/privacy', '/terms', '/help'];
+const LEGAL_PATHS = ['/privacy', '/terms', '/help'];
 
 function normalizePath(pathname: string): string {
     if (pathname.length > 1 && pathname.endsWith('/')) {
@@ -28,14 +28,16 @@ export function AppShell({ children }: { children: ReactNode }) {
     const { ready, state, celebration, dismissCelebration } = useHydro();
     const pathname = normalizePath(usePathname());
     const router = useRouter();
-    const bare = OPEN_PATHS.some(path => pathname === path || pathname.startsWith(`${path}/`));
+    const legal = LEGAL_PATHS.some(path => pathname === path || pathname.startsWith(`${path}/`));
+    const showingSetup = pathname === '/' && !state.onboardingCompleted;
+    const bare = showingSetup || legal;
 
     useEffect(() => {
-        if (!ready || bare) return;
-        if (!state.onboardingCompleted) {
-            router.replace('/onboarding');
+        if (!ready || legal) return;
+        if (pathname === '/onboarding' || (!state.onboardingCompleted && pathname !== '/')) {
+            router.replace('/');
         }
-    }, [bare, ready, router, state.onboardingCompleted]);
+    }, [legal, pathname, ready, router, state.onboardingCompleted]);
 
     if (!ready) {
         return <div className="grid min-h-full place-items-center text-sm text-[var(--faint)]">Hydrofit.do Web</div>;
