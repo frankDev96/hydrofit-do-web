@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "Hydrofit.do Web",
   "private": true,
+  "packageManager": "pnpm@11.4.0",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
